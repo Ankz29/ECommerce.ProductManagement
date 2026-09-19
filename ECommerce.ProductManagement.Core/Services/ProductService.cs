@@ -18,14 +18,13 @@ namespace ECommerce.ProductManagement.Core.Services
             _inventoryServiceAgent = inventoryAgent;
         }
 
-        public async Task AddProductAsync(Product product, int initialQuantity)
+        public async Task AddProductAsync(Product product)
         {
             await _productServiceAgent.AddAsync(product);
 
             var inventory = new Inventory
             {
                 ProductId = product.Id,
-                Quantity = initialQuantity
             };
 
             await _inventoryServiceAgent.AddAsync(inventory);

@@ -1,4 +1,5 @@
-﻿using ECommerce.ProductManagement.Core.Models;
+﻿using ECommerce.ProductManagement.API.DTOs;
+using ECommerce.ProductManagement.Core.Models;
 using ECommerce.ProductManagement.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,18 +22,36 @@ namespace ECommerce.ProductManagement.API.Controllers
             return Ok(await _productService.GetAllProductsAsync());
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            return Ok(await _productService.GetProductByIdAsync(id));
+            var product = await _productService.GetProductByIdAsync(id);
+            if (product == null) return NotFound();
+
+            var dto = new ProductReadDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+            };
+            return Ok(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(ProductCreateDto productCreateDto)
         {
-            await _productService.AddProductAsync(product, product.Inventory.Quantity);
+            Product product = new Product
+            {
+                Name = productCreateDto.Name,
+                Description = productCreateDto.Description,
+                Price = productCreateDto.Price,
+                CategoryId = productCreateDto.CategoryId,
+                InventoryId = productCreateDto.InventoryId
+            };
 
-            return Ok(product);
+            await _productService.AddProductAsync(product);
+
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, new { product.Id, product.Name, product.Price });
         }
 
         [HttpPut("{id}")]
@@ -44,7 +63,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         }
 
         [HttpDelete("{id}")]
-            public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _productService.DeleteProductAsync(id);
             return NoContent();

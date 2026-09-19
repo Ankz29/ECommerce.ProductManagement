@@ -1,11 +1,6 @@
-﻿using System.Text.Json.Serialization;
-
-namespace ECommerce.ProductManagement.Core.Models
+﻿namespace ECommerce.ProductManagement.API.DTOs
 {
-    /// <summary>
-    /// Product class that defines all the necessary properties.
-    /// </summary>
-    public class Product
+    public class ProductUpdateDto
     {
         /// <summary>
         /// Product Id
@@ -36,17 +31,5 @@ namespace ECommerce.ProductManagement.Core.Models
         /// Product belongs to which InventoryId
         /// </summary>
         public int InventoryId { get; set; }
-
-        /// <summary>
-        /// Category Class
-        /// </summary>
-        [JsonIgnore] // prevents circular reference in Swagger & responses
-        public Category Category { get; set; }
-
-        /// <summary>
-        /// Inventory Class
-        /// </summary>
-        [JsonIgnore] // prevents circular reference in Swagger & responses
-        public Inventory Inventory { get; set; }
     }
 }

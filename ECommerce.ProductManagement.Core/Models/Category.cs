@@ -20,7 +20,6 @@ namespace ECommerce.ProductManagement.Core.Models
         /// <summary>
         /// Collection of Products
         /// </summary>
-        [JsonIgnore]
         public ICollection<Product> Products { get; set; }
     }
 }

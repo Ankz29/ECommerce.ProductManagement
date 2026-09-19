@@ -18,6 +18,12 @@ namespace ECommerce.ProductManagement.Core.Services
         public async Task<Inventory?> GetInventoryByProductIdAsync(int productId) =>
             await _inventoryServiceAgent.GetByIdAsync(productId);
 
+        public async Task<Inventory> CreateInventoryAsync(Inventory inventory)
+        {
+            await _inventoryServiceAgent.AddAsync(inventory);
+            return inventory;
+        }
+
         public async Task<bool> UpdateInventoryQuantityAsync(int productId, int quantity)
         {
             var inventory = await _inventoryServiceAgent.GetByIdAsync(productId);

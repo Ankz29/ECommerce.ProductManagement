@@ -1,11 +1,6 @@
-﻿using System.Text.Json.Serialization;
-
-namespace ECommerce.ProductManagement.Core.Models
+﻿namespace ECommerce.ProductManagement.API.DTOs
 {
-    /// <summary>
-    /// Inventory class that defines all the necessary properties.
-    /// </summary>
-    public class Inventory
+    public class InventoryReadDto
     {
         /// <summary>
         /// Inventory Id
@@ -21,10 +16,5 @@ namespace ECommerce.ProductManagement.Core.Models
         /// Inventory Product Quantity
         /// </summary>
         public int Quantity { get; set; }
-
-        /// <summary>
-        /// Product Class
-        /// </summary>
-        public Product Product { get; set; }
     }
 }

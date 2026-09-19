@@ -1,4 +1,5 @@
-﻿using ECommerce.ProductManagement.Core.Models;
+﻿using ECommerce.ProductManagement.API.DTOs;
+using ECommerce.ProductManagement.Core.Models;
 using ECommerce.ProductManagement.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,10 +26,18 @@ namespace ECommerce.ProductManagement.API.Controllers
 
         // ✅ POST /api/categories
         [HttpPost]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create(CategoryCreateDto dto)
         {
+            var category = new Category { Name = dto.Name };
             await _categoryService.AddCategoryAsync(category);
-            return CreatedAtAction(nameof(GetAll), new { id = category.Id }, category);
+
+            var readDto = new CategoryReadDto
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
+
+            return CreatedAtAction(nameof(GetAll), new { id = category.Id }, readDto);
         }
 
         // ✅ PUT /api/categories/{id}
