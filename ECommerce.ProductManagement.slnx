@@ -1,0 +1,31 @@
+<Solution>
+  <Folder Name="/ECommerce.ProductManagement.UI/">
+    <File Path="ecommerce.productmanagement.ui/.gitignore" />
+    <File Path="ecommerce.productmanagement.ui/package-lock.json" />
+    <File Path="ecommerce.productmanagement.ui/package.json" />
+    <File Path="ecommerce.productmanagement.ui/README.md" />
+  </Folder>
+  <Folder Name="/ECommerce.ProductManagement.UI/node_modules/" />
+  <Folder Name="/ECommerce.ProductManagement.UI/public/">
+    <File Path="ecommerce.productmanagement.ui/public/favicon.ico" />
+    <File Path="ecommerce.productmanagement.ui/public/index.html" />
+    <File Path="ecommerce.productmanagement.ui/public/logo192.png" />
+    <File Path="ecommerce.productmanagement.ui/public/logo512.png" />
+    <File Path="ecommerce.productmanagement.ui/public/manifest.json" />
+    <File Path="ecommerce.productmanagement.ui/public/robots.txt" />
+  </Folder>
+  <Folder Name="/ECommerce.ProductManagement.UI/src/">
+    <File Path="ecommerce.productmanagement.ui/src/App.css" />
+    <File Path="ecommerce.productmanagement.ui/src/App.js" />
+    <File Path="ecommerce.productmanagement.ui/src/App.test.js" />
+    <File Path="ecommerce.productmanagement.ui/src/index.css" />
+    <File Path="ecommerce.productmanagement.ui/src/index.js" />
+    <File Path="ecommerce.productmanagement.ui/src/logo.svg" />
+    <File Path="ecommerce.productmanagement.ui/src/reportWebVitals.js" />
+    <File Path="ecommerce.productmanagement.ui/src/setupTests.js" />
+  </Folder>
+  <Project Path="ECommerce.ProductManagement.API/ECommerce.ProductManagement.API.csproj" />
+  <Project Path="ECommerce.ProductManagement.Core/ECommerce.ProductManagement.Core.csproj" />
+  <Project Path="ECommerce.ProductManagement.Infrastructure/ECommerce.ProductManagement.Infrastructure.csproj" />
+  <Project Path="ECommerce.ProductManagement.Tests/ECommerce.ProductManagement.Tests.csproj" />
+</Solution>
