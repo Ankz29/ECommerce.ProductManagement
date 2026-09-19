@@ -24,6 +24,9 @@
     <File Path="ecommerce.productmanagement.ui/src/reportWebVitals.js" />
     <File Path="ecommerce.productmanagement.ui/src/setupTests.js" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
   <Project Path="ECommerce.ProductManagement.API/ECommerce.ProductManagement.API.csproj" />
   <Project Path="ECommerce.ProductManagement.Core/ECommerce.ProductManagement.Core.csproj" />
   <Project Path="ECommerce.ProductManagement.Infrastructure/ECommerce.ProductManagement.Infrastructure.csproj" />
