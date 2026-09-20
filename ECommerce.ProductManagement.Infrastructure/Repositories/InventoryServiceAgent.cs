@@ -1,6 +1,10 @@
-﻿using ECommerce.ProductManagement.Core.Models;
+﻿#region using directives
+
+using ECommerce.ProductManagement.Core.Models;
 using ECommerce.ProductManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace ECommerce.ProductManagement.Infrastructure.Repositories
 {
@@ -26,7 +30,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing a collection of Inventory entities.
         /// </returns>
-        public async Task<IEnumerable<Inventory>> GetAllAsync() =>
+        public async Task<IEnumerable<Inventory>> GetAllInventoryAsync() =>
             await _context.Inventories.Include(p => p.Product).Include(p => p.Id).ToListAsync();
 
         /// <summary>
@@ -36,7 +40,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing the Inventory entity if found; otherwise null.
         /// </returns>
-        public async Task<Inventory> GetByIdAsync(int id) =>
+        public async Task<Inventory> GetInventoryByIdAsync(int id) =>
             await _context.Inventories.Include(p => p.Product).Include(p => p.Id)
                                    .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -47,7 +51,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task AddAsync(Inventory inventory)
+        public async Task AddInventoryAsync(Inventory inventory)
         {
             _context.Inventories.Add(inventory);
             await _context.SaveChangesAsync();
@@ -60,7 +64,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task UpdateAsync(Inventory inventory)
+        public async Task UpdateInventoryAsync(Inventory inventory)
         {
             _context.Inventories.Update(inventory);
             await _context.SaveChangesAsync();
@@ -73,7 +77,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task DeleteAsync(int id)
+        public async Task DeleteInventoryAsync(int id)
         {
             var inventory = await _context.Inventories.FindAsync(id);
             if (inventory != null)

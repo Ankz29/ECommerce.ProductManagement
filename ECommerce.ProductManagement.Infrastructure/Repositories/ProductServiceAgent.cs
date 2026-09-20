@@ -30,7 +30,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing a collection of Product entities.
         /// </returns>
-        public async Task<IEnumerable<Product>> GetAllAsync() =>
+        public async Task<IEnumerable<Product>> GetAllProductsAsync() =>
             await _context.Products.Include(p => p.Category).Include(p => p.Inventory).ToListAsync();
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing the Product entity if found; otherwise null.
         /// </returns>
-        public async Task<Product> GetByIdAsync(int id) =>
+        public async Task<Product> GetProductByIdAsync(int id) =>
             await _context.Products.Include(p => p.Category).Include(p => p.Inventory)
                                    .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -51,7 +51,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task AddAsync(Product product)
+        public async Task AddProductAsync(Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -64,7 +64,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task UpdateAsync(Product product)
+        public async Task UpdateProductAsync(Product product)
         {
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
@@ -77,7 +77,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task DeleteAsync(int id)
+        public async Task DeleteProductAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product != null)

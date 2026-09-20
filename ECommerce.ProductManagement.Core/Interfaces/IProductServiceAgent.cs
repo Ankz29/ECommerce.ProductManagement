@@ -13,7 +13,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
             /// <returns>
             /// A task representing the asynchronous operation, containing a collection of Product entities.
             /// </returns>
-            Task<IEnumerable<Product>> GetAllAsync();
+            Task<IEnumerable<Product>> GetAllProductsAsync();
 
             /// <summary>
             /// Asynchronously retrieves a product by its unique identifier.
@@ -22,7 +22,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
             /// <returns>
             /// A task representing the asynchronous operation, containing the Product entity if found; otherwise null.
             /// </returns>
-            Task<Product> GetByIdAsync(int id);
+            Task<Product> GetProductByIdAsync(int id);
 
             /// <summary>
             /// Asynchronously adds a new product to the data source.
@@ -31,7 +31,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
             /// <returns>
             /// A task representing the asynchronous operation.
             /// </returns>
-            Task AddAsync(Product product);
+            Task AddProductAsync(Product product);
 
             /// <summary>
             /// Asynchronously updates an existing product in the data source.
@@ -40,7 +40,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
             /// <returns>
             /// A task representing the asynchronous operation.
             /// </returns>
-            Task UpdateAsync(Product product);
+            Task UpdateProductAsync(Product product);
 
             /// <summary>
             /// Asynchronously deletes a product from the data source by its unique identifier.
@@ -49,6 +49,6 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
             /// <returns>
             /// A task representing the asynchronous operation.
             /// </returns>
-            Task DeleteAsync(int id);
+            Task DeleteProductAsync(int id);
     }
 }

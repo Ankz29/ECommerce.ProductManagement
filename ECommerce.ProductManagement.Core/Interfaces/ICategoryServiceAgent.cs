@@ -13,7 +13,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing a collection of category entities.
         /// </returns>
-        Task<IEnumerable<Category>> GetAllAsync();
+        Task<IEnumerable<Category>> GetAllCategoryAsync();
 
         /// <summary>
         /// Asynchronously retrieves a category by its unique identifier.
@@ -22,7 +22,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing the category entity if found; otherwise null.
         /// </returns>
-        Task<Category> GetByIdAsync(int id);
+        Task<Category> GetCategoryByIdAsync(int id);
 
         /// <summary>
         /// Asynchronously adds a new category to the data source.
@@ -31,7 +31,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        Task AddAsync(Category category);
+        Task AddCategoryAsync(Category category);
 
         /// <summary>
         /// Asynchronously updates an existing category in the data source.
@@ -40,7 +40,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        Task UpdateAsync(Category category);
+        Task UpdateCategoryAsync(Category category);
 
         /// <summary>
         /// Asynchronously deletes a category from the data source by its unique identifier.
@@ -49,6 +49,6 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        Task DeleteAsync(int id);
+        Task DeleteCategoryAsync(int id);
     }
 }

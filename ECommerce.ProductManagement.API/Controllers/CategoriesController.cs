@@ -1,10 +1,17 @@
-﻿using ECommerce.ProductManagement.API.DTOs;
+﻿#region using directives
+
+using ECommerce.ProductManagement.API.DTOs;
 using ECommerce.ProductManagement.Core.Models;
 using ECommerce.ProductManagement.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
+#endregion
+
 namespace ECommerce.ProductManagement.API.Controllers
 {
+    /// <summary>
+    /// Categories API Controller.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
@@ -16,17 +23,28 @@ namespace ECommerce.ProductManagement.API.Controllers
             _categoryService = categoryService;
         }
 
-        // ✅ GET /api/categories
+        /// <summary>
+        /// Retrieves all categories from the system.
+        /// </summary>
+        /// <returns>
+        /// Returns 200 OK with the list of categories.
+        /// </returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllCategories()
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
             return Ok(categories);
         }
 
-        // ✅ POST /api/categories
+        /// <summary>
+        /// Creates a new category.
+        /// </summary>
+        /// <param name="dto">The category details to create.</param>
+        /// <returns>
+        /// Returns 201 Created with the newly created category’s details.
+        /// </returns>
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryCreateDto dto)
+        public async Task<IActionResult> CreateCategory(CategoryCreateDto dto)
         {
             var category = new Category { Name = dto.Name };
             await _categoryService.AddCategoryAsync(category);
@@ -37,12 +55,20 @@ namespace ECommerce.ProductManagement.API.Controllers
                 Name = category.Name
             };
 
-            return CreatedAtAction(nameof(GetAll), new { id = category.Id }, readDto);
+            return CreatedAtAction(nameof(GetAllCategories), new { id = category.Id }, readDto);
         }
 
-        // ✅ PUT /api/categories/{id}
+        /// <summary>
+        /// Updates an existing category.
+        /// </summary>
+        /// <param name="id">The category ID to update.</param>
+        /// <param name="category">The updated category details.</param>
+        /// <returns>
+        /// Returns 204 No Content if the update succeeds, 
+        /// or 400 Bad Request if the ID does not match the category object.
+        /// </returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Category category)
+        public async Task<IActionResult> UpdateCategory(int id, Category category)
         {
             if (id != category.Id)
                 return BadRequest("Category ID mismatch.");
@@ -51,9 +77,15 @@ namespace ECommerce.ProductManagement.API.Controllers
             return NoContent();
         }
 
-        // ✅ DELETE /api/categories/{id}
+        /// <summary>
+        /// Deletes a category by its unique identifier.
+        /// </summary>
+        /// <param name="id">The category ID to delete.</param>
+        /// <returns>
+        /// Returns 204 No Content after successful deletion.
+        /// </returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
             await _categoryService.DeleteCategoryAsync(id);
             return NoContent();

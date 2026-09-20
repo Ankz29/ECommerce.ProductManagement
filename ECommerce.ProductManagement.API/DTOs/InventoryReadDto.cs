@@ -1,5 +1,8 @@
 ﻿namespace ECommerce.ProductManagement.API.DTOs
 {
+    /// <summary>
+    /// Read Inventory DTO class.
+    /// </summary>
     public class InventoryReadDto
     {
         /// <summary>

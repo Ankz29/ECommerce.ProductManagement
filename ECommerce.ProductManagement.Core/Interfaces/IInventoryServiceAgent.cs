@@ -13,7 +13,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing a collection of inventory entities.
         /// </returns>
-        Task<IEnumerable<Inventory>> GetAllAsync();
+        Task<IEnumerable<Inventory>> GetAllInventoryAsync();
 
         /// <summary>
         /// Asynchronously retrieves a inventory by its unique identifier.
@@ -22,7 +22,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing the inventory entity if found; otherwise null.
         /// </returns>
-        Task<Inventory> GetByIdAsync(int id);
+        Task<Inventory> GetInventoryByIdAsync(int id);
 
         /// <summary>
         /// Asynchronously adds a new inventory to the data source.
@@ -31,7 +31,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        Task AddAsync(Inventory inventory);
+        Task AddInventoryAsync(Inventory inventory);
 
         /// <summary>
         /// Asynchronously updates an existing inventory in the data source.
@@ -40,7 +40,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        Task UpdateAsync(Inventory inventory);
+        Task UpdateInventoryAsync(Inventory inventory);
 
         /// <summary>
         /// Asynchronously deletes a inventory from the data source by its unique identifier.
@@ -49,6 +49,6 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        Task DeleteAsync(int id);
+        Task DeleteInventoryAsync(int id);
     }
 }

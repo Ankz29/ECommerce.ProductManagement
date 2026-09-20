@@ -1,5 +1,8 @@
 ﻿namespace ECommerce.ProductManagement.API.DTOs
 {
+    /// <summary>
+    /// Read Category DTO class.
+    /// </summary>
     public class CategoryReadDto
     {
         /// <summary>

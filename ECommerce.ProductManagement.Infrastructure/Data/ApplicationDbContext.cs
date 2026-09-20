@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.ProductManagement.Infrastructure.Data
 {
+    /// <summary>
+    /// Application Db Context class for Entity framework code- database migrations.
+    /// </summary>
     public class ApplicationDbContext : DbContext
     {
         /// <summary>

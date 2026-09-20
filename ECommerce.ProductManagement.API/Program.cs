@@ -1,7 +1,11 @@
+#region using directives
+
 using ECommerce.ProductManagement.Core.Services;
 using ECommerce.ProductManagement.Infrastructure.Data;
 using ECommerce.ProductManagement.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 

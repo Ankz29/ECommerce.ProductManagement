@@ -30,7 +30,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing a collection of Category entities.
         /// </returns>
-        public async Task<IEnumerable<Category>> GetAllAsync() =>
+        public async Task<IEnumerable<Category>> GetAllCategoryAsync() =>
             await _context.Categories.Include(p => p.Products).Include(p => p.Id).ToListAsync();
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing the Category entity if found; otherwise null.
         /// </returns>
-        public async Task<Category> GetByIdAsync(int id) =>
+        public async Task<Category> GetCategoryByIdAsync(int id) =>
             await _context.Categories.Include(p => p.Products).Include(p => p.Id)
                                    .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -51,7 +51,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task AddAsync(Category category)
+        public async Task AddCategoryAsync(Category category)
         {
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
@@ -64,7 +64,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task UpdateAsync(Category category)
+        public async Task UpdateCategoryAsync(Category category)
         {
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
@@ -77,7 +77,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task DeleteAsync(int id)
+        public async Task DeleteCategoryAsync(int id)
         {
             var category = await _context.Categories.FindAsync(id);
             if (category != null)

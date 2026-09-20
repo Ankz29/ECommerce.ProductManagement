@@ -1,5 +1,8 @@
 ﻿namespace ECommerce.ProductManagement.API.DTOs
 {
+    /// <summary>
+    /// Create Inventory DTO class.
+    /// </summary>
     public class InventoryCreateDto
     {
         /// <summary>
