@@ -19,7 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ECommerce.ProductManagement.Core\ECommerce.ProductManagement.Core.csproj" />
     <ProjectReference Include="..\ECommerce.ProductManagement.Infrastructure\ECommerce.ProductManagement.Infrastructure.csproj" />
-    <ProjectReference Include="..\ECommerce.ProductManagement.Tests\ECommerce.ProductManagement.Tests.csproj" />
   </ItemGroup>
 
 </Project>

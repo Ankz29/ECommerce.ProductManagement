@@ -16,6 +16,9 @@
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
@@ -23,6 +26,12 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerce.ProductManagement.API\ECommerce.ProductManagement.API.csproj" />
+    <ProjectReference Include="..\ECommerce.ProductManagement.Core\ECommerce.ProductManagement.Core.csproj" />
+    <ProjectReference Include="..\ECommerce.ProductManagement.Infrastructure\ECommerce.ProductManagement.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
