@@ -3,6 +3,7 @@
 using ECommerce.ProductManagement.API.DTOs;
 using ECommerce.ProductManagement.Core.Models;
 using ECommerce.ProductManagement.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 #endregion
@@ -29,6 +30,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// <returns>
         /// Returns 200 OK with the list of inventory items.
         /// </returns>
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public async Task<IActionResult> GetAllInventories()
         {
@@ -44,6 +46,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// Returns 200 OK with the inventory record if found, 
         /// or 404 Not Found if no inventory exists for the given product.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetInventoryByProductId(int productId)
         {
@@ -61,6 +64,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// <returns>
         /// Returns 201 Created with the newly created inventory record.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateInventory(InventoryCreateDto dto)
         {
@@ -91,6 +95,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// Returns 204 No Content if the update succeeds, 
         /// or 404 Not Found if no inventory record exists for the given product.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{productId}")]
         public async Task<IActionResult> UpdateInventoryQuantity(int productId, [FromBody] int quantity)
         {

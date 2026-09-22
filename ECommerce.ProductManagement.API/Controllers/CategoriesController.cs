@@ -3,6 +3,7 @@
 using ECommerce.ProductManagement.API.DTOs;
 using ECommerce.ProductManagement.Core.Models;
 using ECommerce.ProductManagement.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 #endregion
@@ -29,6 +30,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// <returns>
         /// Returns 200 OK with the list of categories.
         /// </returns>
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -43,6 +45,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// <returns>
         /// Returns 201 Created with the newly created category’s details.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryCreateDto dto)
         {
@@ -67,6 +70,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// Returns 204 No Content if the update succeeds, 
         /// or 400 Bad Request if the ID does not match the category object.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, Category category)
         {
@@ -84,6 +88,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// <returns>
         /// Returns 204 No Content after successful deletion.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {

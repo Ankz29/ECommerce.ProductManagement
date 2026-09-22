@@ -3,6 +3,7 @@
 using ECommerce.ProductManagement.API.DTOs;
 using ECommerce.ProductManagement.Core.Models;
 using ECommerce.ProductManagement.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 #endregion
@@ -26,6 +27,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// <summary>
         /// Retrieves all products from the system.
         /// </summary>
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -40,6 +42,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// Returns 200 OK with the product details if found, 
         /// or 404 Not Found if no product exists with the given ID.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
@@ -62,6 +65,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// <returns>
         /// Returns 201 Created with the newly created product’s basic details.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductCreateDto productCreateDto)
         {
@@ -88,6 +92,7 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// Returns 204 No Content if the update succeeds, 
         /// or 400 Bad Request if the ID does not match the product object.
         /// </returns>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, Product product)
         {
