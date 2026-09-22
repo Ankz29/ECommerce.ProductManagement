@@ -9,6 +9,9 @@ using Moq;
 
 namespace ECommerce.ProductManagement.Tests.Services
 {
+    /// <summary>
+    /// Product Service Test class.
+    /// </summary>
     public class ProductServiceTests
     {
         /// <summary>

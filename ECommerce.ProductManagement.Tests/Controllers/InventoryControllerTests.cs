@@ -12,6 +12,9 @@ using Moq;
 
 namespace ECommerce.ProductManagement.Tests.Controllers
 {
+    /// <summary>
+    /// Inventory Controller Test class.
+    /// </summary>
     public class InventoryControllerTests
     {
         /// <summary>

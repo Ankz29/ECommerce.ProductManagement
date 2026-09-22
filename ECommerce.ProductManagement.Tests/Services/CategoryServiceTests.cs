@@ -9,8 +9,15 @@ using Moq;
 
 namespace ECommerce.ProductManagement.Tests.Services
 {
+    /// <summary>
+    /// Category Service Test class.
+    /// </summary>
     public class CategoryServiceTests
     {
+        /// <summary>
+        /// Tests that GetAllCategoriesAsync returns the expected list of categories
+        /// provided by the mocked category service agent.
+        /// </summary>
         [Fact]
         public async Task GetAllCategoriesAsync_ReturnsCategories()
         {
@@ -30,6 +37,10 @@ namespace ECommerce.ProductManagement.Tests.Services
             Assert.Same(list, result);
         }
 
+        /// <summary>
+        /// Tests that AddCategoryAsync calls the category service agent's AddCategoryAsync method
+        /// exactly once with the specified category.
+        /// </summary>
         [Fact]
         public async Task AddCategoryAsync_CallsAgent()
         {
@@ -45,6 +56,10 @@ namespace ECommerce.ProductManagement.Tests.Services
             agent.Verify(x => x.AddCategoryAsync(category), Times.Once);
         }
 
+        /// <summary>
+        /// Tests that UpdateCategoryAsync calls the category service agent's UpdateCategoryAsync method
+        /// exactly once with the specified category.
+        /// </summary>
         [Fact]
         public async Task UpdateCategoryAsync_CallsAgent()
         {
@@ -60,6 +75,10 @@ namespace ECommerce.ProductManagement.Tests.Services
             agent.Verify(x => x.UpdateCategoryAsync(category), Times.Once);
         }
 
+        /// <summary>
+        /// Tests that DeleteCategoryAsync calls the category service agent's DeleteCategoryAsync method
+        /// exactly once with the specified category Id.
+        /// </summary>
         [Fact]
         public async Task DeleteCategoryAsync_CallsAgent()
         {

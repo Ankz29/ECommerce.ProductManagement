@@ -12,6 +12,9 @@ using Moq;
 
 namespace ECommerce.ProductManagement.Tests.Controllers
 {
+    /// <summary>
+    /// Categories Controller Test class.
+    /// </summary>
     public class CategoriesControllerTests
     {
         /// <summary>
