@@ -47,7 +47,7 @@ namespace ECommerce.ProductManagement.Tests.Services
             var inv = new Inventory { Id = 5, ProductId = 20, Quantity = 7 };
 
             var agent = new Mock<IInventoryServiceAgent>();
-            agent.Setup(x => x.GetInventoryByIdAsync(inv.ProductId)).ReturnsAsync(inv);
+            agent.Setup(x => x.GetInventoryByProductIdAsync(inv.ProductId)).ReturnsAsync(inv);
 
             var service = new InventoryService(agent.Object);
 
@@ -84,7 +84,7 @@ namespace ECommerce.ProductManagement.Tests.Services
         public async Task UpdateInventoryQuantityAsync_ReturnsFalse_WhenInventoryNotFound()
         {
             var agent = new Mock<IInventoryServiceAgent>();
-            agent.Setup(x => x.GetInventoryByIdAsync(It.IsAny<int>())).ReturnsAsync((Inventory)null);
+            agent.Setup(x => x.GetInventoryByProductIdAsync(It.IsAny<int>())).ReturnsAsync((Inventory)null);
             agent.Setup(x => x.UpdateInventoryAsync(It.IsAny<Inventory>())).Returns(Task.CompletedTask);
 
             var service = new InventoryService(agent.Object);
@@ -105,7 +105,7 @@ namespace ECommerce.ProductManagement.Tests.Services
             var inv = new Inventory { Id = 3, ProductId = 12, Quantity = 1 };
 
             var agent = new Mock<IInventoryServiceAgent>();
-            agent.Setup(x => x.GetInventoryByIdAsync(inv.ProductId)).ReturnsAsync(inv);
+            agent.Setup(x => x.GetInventoryByProductIdAsync(inv.ProductId)).ReturnsAsync(inv);
             agent.Setup(x => x.UpdateInventoryAsync(It.IsAny<Inventory>())).Returns(Task.CompletedTask).Verifiable();
 
             var service = new InventoryService(agent.Object);

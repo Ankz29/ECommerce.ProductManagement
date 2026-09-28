@@ -78,7 +78,7 @@ namespace ECommerce.ProductManagement.API.Controllers
                 InventoryId = productCreateDto.InventoryId
             };
 
-            await _productService.AddProductAsync(product);
+            await _productService.AddProductAsync(product, productCreateDto.Quantity);
 
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, new { product.Id, product.Name, product.Price });
         }
@@ -94,9 +94,20 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// </returns>
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, Product product)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] DTOs.ProductUpdateDto productDto)
         {
-            if (id != product.Id) return BadRequest();
+            if (id != productDto.Id) return BadRequest("Product ID mismatch.");
+
+            var product = new Product
+            {
+                Id = productDto.Id,
+                Name = productDto.Name,
+                Description = productDto.Description,
+                Price = productDto.Price,
+                CategoryId = productDto.CategoryId,
+                InventoryId = productDto.InventoryId
+            };
+
             await _productService.UpdateProductAsync(product);
             return NoContent();
         }

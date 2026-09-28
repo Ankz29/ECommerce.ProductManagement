@@ -37,13 +37,14 @@ namespace ECommerce.ProductManagement.Core.Services
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
-        public async Task AddProductAsync(Product product)
+        public async Task AddProductAsync(Product product, int initialQuantity = 0)
         {
             await _productServiceAgent.AddProductAsync(product);
 
             var inventory = new Inventory
             {
                 ProductId = product.Id,
+                Quantity = initialQuantity,
             };
 
             await _inventoryServiceAgent.AddInventoryAsync(inventory);

@@ -20,7 +20,7 @@ namespace ECommerce.ProductManagement.Tests.Services
         /// is created with the correct ProductId.
         /// </summary>
         [Fact]
-        public async Task AddProductAsync_CallsProductAndInventoryAgents()
+        public async Task AddProductAsync_CreatesInventoryWithInitialQuantity()
         {
             var product = new Product { Name = "Gadget" };
 
@@ -38,10 +38,10 @@ namespace ECommerce.ProductManagement.Tests.Services
 
             var service = new ProductService(productAgent.Object, inventoryAgent.Object);
 
-            await service.AddProductAsync(product);
+            await service.AddProductAsync(product, 12);
 
             productAgent.Verify(x => x.AddProductAsync(product), Times.Once);
-            inventoryAgent.Verify(x => x.AddInventoryAsync(It.Is<Inventory>(i => i.ProductId == 321)), Times.Once);
+            inventoryAgent.Verify(x => x.AddInventoryAsync(It.Is<Inventory>(i => i.ProductId == 321 && i.Quantity == 12)), Times.Once);
         }
 
         /// <summary>

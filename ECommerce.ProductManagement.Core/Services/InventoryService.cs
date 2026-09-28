@@ -38,7 +38,7 @@ namespace ECommerce.ProductManagement.Core.Services
         /// The <see cref="Inventory"/> record if found, or null if no inventory exists for the given product.
         /// </returns>
         public async Task<Inventory?> GetInventoryByProductIdAsync(int productId) =>
-            await _inventoryServiceAgent.GetInventoryByIdAsync(productId);
+            await _inventoryServiceAgent.GetInventoryByProductIdAsync(productId);
 
         /// <summary>
         /// Creates a new inventory record in the data source.
@@ -63,7 +63,7 @@ namespace ECommerce.ProductManagement.Core.Services
         /// </returns>
         public async Task<bool> UpdateInventoryQuantityAsync(int productId, int quantity)
         {
-            var inventory = await _inventoryServiceAgent.GetInventoryByIdAsync(productId);
+            var inventory = await _inventoryServiceAgent.GetInventoryByProductIdAsync(productId);
             if (inventory == null) return false;
 
             inventory.Quantity = quantity;

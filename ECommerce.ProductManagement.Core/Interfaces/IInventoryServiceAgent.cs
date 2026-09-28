@@ -18,11 +18,11 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <summary>
         /// Asynchronously retrieves a inventory by its unique identifier.
         /// </summary>
-        /// <param name="id">The unique identifier of the inventory.</param>
+        /// <param name="productId">The unique identifier of the product.</param>
         /// <returns>
         /// A task representing the asynchronous operation, containing the inventory entity if found; otherwise null.
         /// </returns>
-        Task<Inventory> GetInventoryByIdAsync(int id);
+        Task<Inventory?> GetInventoryByProductIdAsync(int productId);
 
         /// <summary>
         /// Asynchronously adds a new inventory to the data source.

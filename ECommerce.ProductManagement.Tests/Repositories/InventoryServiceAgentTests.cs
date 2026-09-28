@@ -21,7 +21,7 @@ namespace ECommerce.ProductManagement.Tests.Repositories
         }
 
         [Fact]
-        public async Task GetAllInventoryAsync_Throws_InvalidOperationException_ForInvalidInclude()
+        public async Task GetAllInventoryAsync_ReturnsRecordsWithProduct()
         {
             var dbName = Guid.NewGuid().ToString();
 
@@ -39,32 +39,39 @@ namespace ECommerce.ProductManagement.Tests.Repositories
             await using (var context = CreateContext(dbName))
             {
                 var agent = new InventoryServiceAgent(context);
-                await Assert.ThrowsAsync<InvalidOperationException>(async () => await agent.GetAllInventoryAsync());
+                var results = (await agent.GetAllInventoryAsync()).ToList();
+
+                var result = Assert.Single(results);
+                Assert.Equal("P", result.Product.Name);
+                Assert.Equal(2, result.Quantity);
             }
         }
 
         [Fact]
-        public async Task GetInventoryByIdAsync_Throws_InvalidOperationException_ForInvalidInclude()
+        public async Task GetInventoryByProductIdAsync_FindsRecordByProductId()
         {
             var dbName = Guid.NewGuid().ToString();
-            int invId;
 
             await using (var context = CreateContext(dbName))
             {
-                var product = new Product { Name = "P2", Description = "d2", Price = 2m };
+                var product = new Product { Id = 42, Name = "P2", Description = "d2", Price = 2m };
                 context.Products.Add(product);
                 await context.SaveChangesAsync();
 
                 var inv = new Inventory { ProductId = product.Id, Quantity = 3 };
                 context.Inventories.Add(inv);
                 await context.SaveChangesAsync();
-                invId = inv.Id;
             }
 
             await using (var context = CreateContext(dbName))
             {
                 var agent = new InventoryServiceAgent(context);
-                await Assert.ThrowsAsync<InvalidOperationException>(async () => await agent.GetInventoryByIdAsync(invId));
+                var result = await agent.GetInventoryByProductIdAsync(42);
+
+                Assert.NotNull(result);
+                Assert.Equal(42, result.ProductId);
+                Assert.Equal("P2", result.Product.Name);
+                Assert.NotEqual(42, result.Id);
             }
         }
 

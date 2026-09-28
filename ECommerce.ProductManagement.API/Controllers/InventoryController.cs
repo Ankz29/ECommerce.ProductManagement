@@ -14,7 +14,8 @@ namespace ECommerce.ProductManagement.API.Controllers
     /// Inventory API Controller.
     /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    // Match Swagger route (/api/Inventory) so requests from clients and debugger hit this controller
+    [Route("api/Inventory")]
     public class InventoryController : ControllerBase
     {
         private readonly InventoryService _inventoryService;
@@ -58,16 +59,32 @@ namespace ECommerce.ProductManagement.API.Controllers
         }
 
         /// <summary>
-        /// Creates a new inventory record.
+        /// Adds quantity to the product's inventory, creating a record if needed.
         /// </summary>
         /// <param name="dto">The inventory details to create, including product ID and quantity.</param>
         /// <returns>
-        /// Returns 201 Created with the newly created inventory record.
+        /// Returns 201 Created for a new record or 200 OK after adding to an existing record.
         /// </returns>
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateInventory(InventoryCreateDto dto)
         {
+            var existing = await _inventoryService.GetInventoryByProductIdAsync(dto.ProductId);
+            if (existing != null)
+            {
+                var newQuantity = existing.Quantity + dto.Quantity;
+                var updated = await _inventoryService.UpdateInventoryQuantityAsync(dto.ProductId, newQuantity);
+                if (!updated)
+                    return NotFound();
+
+                return Ok(new InventoryReadDto
+                {
+                    Id = existing.Id,
+                    ProductId = existing.ProductId,
+                    Quantity = newQuantity
+                });
+            }
+
             var inventory = new Inventory
             {
                 ProductId = dto.ProductId,

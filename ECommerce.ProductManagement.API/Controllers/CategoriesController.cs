@@ -72,10 +72,16 @@ namespace ECommerce.ProductManagement.API.Controllers
         /// </returns>
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, Category category)
+        public async Task<IActionResult> UpdateCategory(int id, DTOs.CategoryUpdateDto dto)
         {
-            if (id != category.Id)
+            if (id != dto.Id)
                 return BadRequest("Category ID mismatch.");
+
+            var category = new Category
+            {
+                Id = dto.Id,
+                Name = dto.Name
+            };
 
             await _categoryService.UpdateCategoryAsync(category);
             return NoContent();

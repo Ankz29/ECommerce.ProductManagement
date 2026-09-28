@@ -84,7 +84,7 @@ namespace ECommerce.ProductManagement.Tests.Controllers
             var categoryService = new CategoryService(categoryAgent.Object);
             var controller = new CategoriesController(categoryService);
 
-            var category = new Category { Id = 2, Name = "X" };
+            var category = new CategoryUpdateDto { Id = 2, Name = "Mismatch" };
 
             var result = await controller.UpdateCategory(1, category);
 
@@ -105,7 +105,7 @@ namespace ECommerce.ProductManagement.Tests.Controllers
             var categoryService = new CategoryService(categoryAgent.Object);
             var controller = new CategoriesController(categoryService);
 
-            var category = new Category { Id = 5, Name = "Updated" };
+            var category = new CategoryUpdateDto { Id = 5, Name = "Updated" };
 
             var result = await controller.UpdateCategory(5, category);
 

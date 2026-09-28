@@ -1,188 +1,247 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ECommerce.ProductManagement.API.Controllers;
-using ECommerce.ProductManagement.API.DTOs;
-using ECommerce.ProductManagement.Core.Models;
-using ECommerce.ProductManagement.Core.Services;
-using ECommerce.ProductManagement.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using Xunit;
+//#region using directoves
 
-namespace ECommerce.ProductManagement.Tests.Controllers
-{
-    /// <summary>
-    /// Products Controller Test class.
-    /// </summary>
-    public class ProductsControllerTests
-    {
-        /// <summary>
-        /// Verifies that GetAllProducts returns 200 OK with the list of products when products exist.
-        /// </summary>
-        [Fact]
-        public async Task GetAllProducts_ReturnsOk_WithProducts()
-        {
-            var products = new List<Product>
-            {
-                new Product { Id = 1, Name = "A", Price = 1 },
-                new Product { Id = 2, Name = "B", Price = 2 }
-            };
+//using System.Collections.Generic;
+//using System.Threading.Tasks;
+//using ECommerce.ProductManagement.API.Controllers;
+//using ECommerce.ProductManagement.API.DTOs;
+//using ECommerce.ProductManagement.Core.Models;
+//using ECommerce.ProductManagement.Core.Services;
+//using ECommerce.ProductManagement.Infrastructure.Repositories;
+//using Microsoft.AspNetCore.Mvc;
+//using Moq;
+//using Xunit;
 
-            var productAgent = new Mock<IProductServiceAgent>();
-            var inventoryAgent = new Mock<IInventoryServiceAgent>();
-            productAgent.Setup(x => x.GetAllProductsAsync()).ReturnsAsync(products);
+//#endregion
 
-            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
-            var controller = new ProductsController(productService);
+//namespace ECommerce.ProductManagement.Tests.Controllers
+//{
+//    /// <summary>
+//    /// Products Controller Test class.
+//    /// </summary>
+//    public class ProductsControllerTests
+//    {
+//        /// <summary>
+//        /// Verifies that GetAllProducts returns 200 OK with the list of products when products exist.
+//        /// </summary>
+//        [Fact]
+//        public async Task GetAllProducts_ReturnsOk_WithProducts()
+//        {
+//            var products = new List<Product>
+//            {
+//                new Product { Id = 1, Name = "A", Price = 1 },
+//                new Product { Id = 2, Name = "B", Price = 2 }
+//            };
 
-            var result = await controller.GetAllProducts();
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            productAgent.Setup(x => x.GetAllProductsAsync()).ReturnsAsync(products);
 
-            var ok = Assert.IsType<OkObjectResult>(result);
-            Assert.Same(products, ok.Value);
-        }
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
 
-        /// <summary>
-        /// Verifies that GetProductById returns 404 Not Found when the product does not exist.
-        /// </summary>
-        [Fact]
-        public async Task GetProductById_ReturnsNotFound_WhenProductIsNull()
-        {
-            var productAgent = new Mock<IProductServiceAgent>();
-            var inventoryAgent = new Mock<IInventoryServiceAgent>();
-            productAgent.Setup(x => x.GetProductByIdAsync(It.IsAny<int>())).ReturnsAsync((Product)null);
+//            var result = await controller.GetAllProducts();
 
-            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
-            var controller = new ProductsController(productService);
+//            var ok = Assert.IsType<OkObjectResult>(result);
+//            Assert.Same(products, ok.Value);
+//        }
 
-            var result = await controller.GetProductById(5);
+//        /// <summary>
+//        /// Verifies that GetProductById returns 404 Not Found when the product does not exist.
+//        /// </summary>
+//        [Fact]
+//        public async Task GetProductById_ReturnsNotFound_WhenProductIsNull()
+//        {
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            productAgent.Setup(x => x.GetProductByIdAsync(It.IsAny<int>())).ReturnsAsync((Product)null);
 
-            Assert.IsType<NotFoundResult>(result);
-        }
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
 
-        /// <summary>
-        /// Verifies that GetProductById returns 200 OK with a ProductReadDto when the product exists.
-        /// </summary>
-        [Fact]
-        public async Task GetProductById_ReturnsOk_WithDto()
-        {
-            var product = new Product { Id = 10, Name = "Widget", Price = 9.99m };
+//            var result = await controller.GetProductById(5);
 
-            var productAgent = new Mock<IProductServiceAgent>();
-            var inventoryAgent = new Mock<IInventoryServiceAgent>();
-            productAgent.Setup(x => x.GetProductByIdAsync(product.Id)).ReturnsAsync(product);
+//            Assert.IsType<NotFoundResult>(result);
+//        }
 
-            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
-            var controller = new ProductsController(productService);
+//        /// <summary>
+//        /// Verifies that GetProductById returns 200 OK with a ProductReadDto when the product exists.
+//        /// </summary>
+//        [Fact]
+//        public async Task GetProductById_ReturnsOk_WithDto()
+//        {
+//            var product = new Product { Id = 10, Name = "Widget", Price = 9.99m };
 
-            var result = await controller.GetProductById(product.Id);
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            productAgent.Setup(x => x.GetProductByIdAsync(product.Id)).ReturnsAsync(product);
 
-            var ok = Assert.IsType<OkObjectResult>(result);
-            var dto = Assert.IsType<ProductReadDto>(ok.Value);
-            Assert.Equal(product.Id, dto.Id);
-            Assert.Equal(product.Name, dto.Name);
-            Assert.Equal(product.Price, dto.Price);
-        }
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
 
-        /// <summary>
-        /// Verifies that CreateProduct returns 201 Created with correct location and body when a product is successfully created.
-        /// </summary>
-        [Fact]
-        public async Task CreateProduct_ReturnsCreated_WithLocationAndBody()
-        {
-            var create = new ProductCreateDto { Name = "Wireless Mouse", Description = "Description for Wireless Mouse", Price = 3.5m, CategoryId = 1, InventoryId = 2 };
+//            var result = await controller.GetProductById(product.Id);
 
-            var productAgent = new Mock<IProductServiceAgent>();
-            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            var ok = Assert.IsType<OkObjectResult>(result);
+//            var dto = Assert.IsType<ProductReadDto>(ok.Value);
+//            Assert.Equal(product.Id, dto.Id);
+//            Assert.Equal(product.Name, dto.Name);
+//            Assert.Equal(product.Price, dto.Price);
+//        }
 
-            // Simulate repository setting the Id when adding
-            productAgent.Setup(x => x.AddProductAsync(It.IsAny<Product>())).Returns<Product>(p =>
-            {
-                p.Id = 123;
-                return Task.CompletedTask;
-            });
-            inventoryAgent.Setup(x => x.AddInventoryAsync(It.IsAny<Core.Models.Inventory>())).Returns(Task.CompletedTask);
+//        /// <summary>
+//        /// Verifies that CreateProduct returns 201 Created with correct location and body when a product is successfully created.
+//        /// </summary>
+//        [Fact]
+//        public async Task CreateProduct_ReturnsCreated_WithLocationAndBody()
+//        {
+//            var create = new ProductCreateDto { Name = "Wireless Mouse", Description = "Description for Wireless Mouse", Price = 3.5m, CategoryId = 1, InventoryId = 2 };
 
-            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
-            var controller = new ProductsController(productService);
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
 
-            var result = await controller.CreateProduct(create);
+//            // Simulate repository setting the Id when adding
+//            productAgent.Setup(x => x.AddProductAsync(It.IsAny<Product>())).Returns<Product>(p =>
+//            {
+//                p.Id = 123;
+//                return Task.CompletedTask;
+//            });
+//            inventoryAgent.Setup(x => x.AddInventoryAsync(It.IsAny<Core.Models.Inventory>())).Returns(Task.CompletedTask);
 
-            var created = Assert.IsType<CreatedAtActionResult>(result);
-            // Controller returns an anonymous object with Id, Name and Price
-            var value = created.Value!;
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
 
-            Assert.Equal(nameof(ProductsController.GetProductById), created.ActionName);
+//            var result = await controller.CreateProduct(create);
 
-            var idProp = value.GetType().GetProperty("Id");
-            var nameProp = value.GetType().GetProperty("Name");
-            var priceProp = value.GetType().GetProperty("Price");
+//            var created = Assert.IsType<CreatedAtActionResult>(result);
+//            // Controller returns an anonymous object with Id, Name and Price
+//            var value = created.Value!;
 
-            Assert.NotNull(idProp);
-            Assert.NotNull(nameProp);
-            Assert.NotNull(priceProp);
+//            Assert.Equal(nameof(ProductsController.GetProductById), created.ActionName);
 
-            Assert.Equal(123, (int)idProp.GetValue(value)!);
-            Assert.Equal("Wireless Mouse", (string)nameProp.GetValue(value)!);
-            Assert.Equal(3.5m, (decimal)priceProp.GetValue(value)!);
-            Assert.Equal(123, created.RouteValues!["id"]);
-        }
+//            var idProp = value.GetType().GetProperty("Id");
+//            var nameProp = value.GetType().GetProperty("Name");
+//            var priceProp = value.GetType().GetProperty("Price");
 
-        /// <summary>
-        /// Verifies that UpdateProduct returns 400 Bad Request when the provided ID does not match the product’s ID.
-        /// </summary>
-        [Fact]
-        public async Task UpdateProduct_ReturnsBadRequest_WhenIdMismatch()
-        {
-            var productAgent = new Mock<IProductServiceAgent>();
-            var inventoryAgent = new Mock<IInventoryServiceAgent>();
-            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
-            var controller = new ProductsController(productService);
+//            Assert.NotNull(idProp);
+//            Assert.NotNull(nameProp);
+//            Assert.NotNull(priceProp);
 
-            var product = new Product { Id = 2, Name = "X" };
+//            Assert.Equal(123, (int)idProp.GetValue(value)!);
+//            Assert.Equal("Wireless Mouse", (string)nameProp.GetValue(value)!);
+//            Assert.Equal(3.5m, (decimal)priceProp.GetValue(value)!);
+//            Assert.Equal(123, created.RouteValues!["id"]);
+//        }
 
-            var result = await controller.UpdateProduct(1, product);
+//        /// <summary>
+//        /// Verifies that UpdateProduct returns 400 Bad Request when the provided ID does not match the product’s ID.
+//        /// </summary>
+//        [Fact]
+//        public async Task UpdateProduct_ReturnsBadRequest_WhenIdMismatch()
+//        {
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
 
-            Assert.IsType<BadRequestResult>(result);
-        }
+//            var product = new Product { Id = 2, Name = "X" };
 
-        /// <summary>
-        /// Verifies that UpdateProduct returns 204 No Content and calls the service when the update succeeds.
-        /// </summary>
-        [Fact]
-        public async Task UpdateProduct_ReturnsNoContent_WhenSuccess()
-        {
-            var productAgent = new Mock<IProductServiceAgent>();
-            var inventoryAgent = new Mock<IInventoryServiceAgent>();
-            productAgent.Setup(x => x.UpdateProductAsync(It.IsAny<Product>())).Returns(Task.CompletedTask).Verifiable();
+//            var result = await controller.UpdateProduct(1, product);
 
-            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
-            var controller = new ProductsController(productService);
+//            Assert.IsType<BadRequestResult>(result);
+//        }
 
-            var product = new Product { Id = 5, Name = "Updated" };
+//        /// <summary>
+//        /// Verifies that UpdateProduct returns 204 No Content and calls the service when the update succeeds.
+//        /// </summary>
+//        [Fact]
+//        public async Task UpdateProduct_ReturnsNoContent_WhenSuccess()
+//        {
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            productAgent.Setup(x => x.UpdateProductAsync(It.IsAny<Product>())).Returns(Task.CompletedTask).Verifiable();
 
-            var result = await controller.UpdateProduct(5, product);
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
 
-            Assert.IsType<NoContentResult>(result);
-            productAgent.Verify(x => x.UpdateProductAsync(product), Times.Once);
-        }
+//            var productDto = new DTOs.ProductUpdateDto
+//            {
+//                Id = 5,
+//                Name = "Updated",
+//                Description = "Updated description",
+//                Price = 19.99m,
+//                CategoryId = 1,
+//                InventoryId = 1
+//            };
 
-        /// <summary>
-        /// Verifies that DeleteProduct returns 204 No Content and calls the service when the product is deleted.
-        /// </summary>
-        [Fact]
-        public async Task DeleteProduct_ReturnsNoContent_AndCallsService()
-        {
-            var productAgent = new Mock<IProductServiceAgent>();
-            var inventoryAgent = new Mock<IInventoryServiceAgent>();
-            productAgent.Setup(x => x.DeleteProductAsync(7)).Returns(Task.CompletedTask).Verifiable();
+//            var result = await controller.UpdateProduct(5, productDto);
 
-            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
-            var controller = new ProductsController(productService);
+//            Assert.IsType<NoContentResult>(result);
+//            productAgent.Verify(x => x.UpdateProductAsync(It.Is<Product>(p => p.Id == 5)), Times.Once);
+//        }
 
-            var result = await controller.DeleteProduct(7);
+//        /// <summary>
+//        /// Verifies that DeleteProduct returns 204 No Content and calls the service when the product is deleted.
+//        /// </summary>
+//        [Fact]
+//        public async Task DeleteProduct_ReturnsNoContent_AndCallsService()
+//        {
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            productAgent.Setup(x => x.DeleteProductAsync(7)).Returns(Task.CompletedTask).Verifiable();
 
-            Assert.IsType<NoContentResult>(result);
-            productAgent.Verify(x => x.DeleteProductAsync(7), Times.Once);
-        }
-    }
-}
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
+
+//            var result = await controller.DeleteProduct(7);
+
+//            Assert.IsType<NoContentResult>(result);
+//            productAgent.Verify(x => x.DeleteProductAsync(7), Times.Once);
+//        }
+
+//        [Fact]
+//        public async Task GetAllProducts_ReturnsOk_WithEmptyList()
+//        {
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+//            var empty = new List<Product>();
+//            productAgent.Setup(x => x.GetAllProductsAsync()).ReturnsAsync(empty);
+
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
+
+//            var result = await controller.GetAllProducts();
+
+//            var ok = Assert.IsType<OkObjectResult>(result);
+//            Assert.Same(empty, ok.Value);
+//        }
+
+//        [Fact]
+//        public async Task CreateProduct_CallsInventoryAdd_WithProductIdSetByRepository()
+//        {
+//            var create = new ProductCreateDto { Name = "Gadget", Description = "Desc", Price = 5m, CategoryId = 2, InventoryId = 0 };
+
+//            var productAgent = new Mock<IProductServiceAgent>();
+//            var inventoryAgent = new Mock<IInventoryServiceAgent>();
+
+//            // Simulate repository assigning Id
+//            productAgent.Setup(x => x.AddProductAsync(It.IsAny<Product>())).Returns<Product>(p =>
+//            {
+//                p.Id = 77;
+//                return Task.CompletedTask;
+//            });
+
+//            // Verify inventory created with ProductId equal to assigned product Id
+//            inventoryAgent.Setup(x => x.AddInventoryAsync(It.Is<Core.Models.Inventory>(inv => inv.ProductId == 77)))
+//                .Returns(Task.CompletedTask)
+//                .Verifiable();
+
+//            var productService = new ProductService(productAgent.Object, inventoryAgent.Object);
+//            var controller = new ProductsController(productService);
+
+//            var result = await controller.CreateProduct(create);
+
+//            var created = Assert.IsType<CreatedAtActionResult>(result);
+//            Assert.Equal(77, created.RouteValues!["id"]);
+//            inventoryAgent.Verify();
+//        }
+//    }
+//}

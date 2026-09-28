@@ -41,12 +41,12 @@ namespace ECommerce.ProductManagement.Core.Models
         /// Category Class
         /// </summary>
         [JsonIgnore] // prevents circular reference in Swagger & responses
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
         /// <summary>
         /// Inventory Class
         /// </summary>
         [JsonIgnore] // prevents circular reference in Swagger & responses
-        public Inventory Inventory { get; set; }
+        public Inventory? Inventory { get; set; }
     }
 }

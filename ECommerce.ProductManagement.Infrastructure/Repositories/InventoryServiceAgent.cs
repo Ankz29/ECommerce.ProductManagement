@@ -31,7 +31,7 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// A task representing the asynchronous operation, containing a collection of Inventory entities.
         /// </returns>
         public async Task<IEnumerable<Inventory>> GetAllInventoryAsync() =>
-            await _context.Inventories.Include(p => p.Product).Include(p => p.Id).ToListAsync();
+            await _context.Inventories.Include(inventory => inventory.Product).ToListAsync();
 
         /// <summary>
         /// Asynchronously retrieves a inventory by its unique identifier, including Category and Inventory details.
@@ -40,9 +40,9 @@ namespace ECommerce.ProductManagement.Infrastructure.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing the Inventory entity if found; otherwise null.
         /// </returns>
-        public async Task<Inventory> GetInventoryByIdAsync(int id) =>
-            await _context.Inventories.Include(p => p.Product).Include(p => p.Id)
-                                   .FirstOrDefaultAsync(p => p.Id == id);
+        public async Task<Inventory?> GetInventoryByProductIdAsync(int productId) =>
+            await _context.Inventories.Include(inventory => inventory.Product)
+                .FirstOrDefaultAsync(inventory => inventory.ProductId == productId);
 
         /// <summary>
         /// Asynchronously adds a new inventory to the database.

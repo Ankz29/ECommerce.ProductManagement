@@ -48,7 +48,7 @@ namespace ECommerce.ProductManagement.Tests.Controllers
         public async Task GetInventoryByProductId_ReturnsNotFound_WhenNull()
         {
             var agent = new Mock<IInventoryServiceAgent>();
-            agent.Setup(x => x.GetInventoryByIdAsync(It.IsAny<int>())).ReturnsAsync((Inventory)null);
+            agent.Setup(x => x.GetInventoryByProductIdAsync(It.IsAny<int>())).ReturnsAsync((Inventory)null);
 
             var service = new InventoryService(agent.Object);
             var controller = new InventoryController(service);
@@ -67,7 +67,7 @@ namespace ECommerce.ProductManagement.Tests.Controllers
             var item = new Inventory { Id = 5, ProductId = 20, Quantity = 7 };
 
             var agent = new Mock<IInventoryServiceAgent>();
-            agent.Setup(x => x.GetInventoryByIdAsync(item.ProductId)).ReturnsAsync(item);
+            agent.Setup(x => x.GetInventoryByProductIdAsync(item.ProductId)).ReturnsAsync(item);
 
             var service = new InventoryService(agent.Object);
             var controller = new InventoryController(service);
@@ -109,6 +109,30 @@ namespace ECommerce.ProductManagement.Tests.Controllers
             Assert.Equal(77, created.RouteValues!["productId"]);
         }
 
+        [Fact]
+        public async Task CreateInventory_AddsQuantityToExistingRecord()
+        {
+            var existing = new Inventory { Id = 12, ProductId = 77, Quantity = 2 };
+            var create = new InventoryCreateDto { ProductId = 77, Quantity = 15 };
+            var agent = new Mock<IInventoryServiceAgent>();
+            agent.Setup(x => x.GetInventoryByProductIdAsync(77)).ReturnsAsync(existing);
+            agent.Setup(x => x.UpdateInventoryAsync(It.Is<Inventory>(item => item.Id == 12 && item.Quantity == 17)))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            var controller = new InventoryController(new InventoryService(agent.Object));
+
+            var result = await controller.CreateInventory(create);
+
+            var ok = Assert.IsType<OkObjectResult>(result);
+            var dto = Assert.IsType<InventoryReadDto>(ok.Value);
+            Assert.Equal(12, dto.Id);
+            Assert.Equal(77, dto.ProductId);
+            Assert.Equal(17, dto.Quantity);
+            agent.Verify(x => x.AddInventoryAsync(It.IsAny<Inventory>()), Times.Never);
+            agent.Verify();
+        }
+
         /// <summary>
         /// Tests that UpdateInventoryQuantity returns a NotFoundResult when the update fails because the inventory item does not exist.
         /// </summary>
@@ -116,8 +140,8 @@ namespace ECommerce.ProductManagement.Tests.Controllers
         public async Task UpdateInventoryQuantity_ReturnsNotFound_WhenUpdateFails()
         {
             var agent = new Mock<IInventoryServiceAgent>();
-            // service will return null for GetInventoryByIdAsync causing update to return false
-            agent.Setup(x => x.GetInventoryByIdAsync(It.IsAny<int>())).ReturnsAsync((Inventory)null);
+            // service will return null for GetInventoryByProductIdAsync causing update to return false
+            agent.Setup(x => x.GetInventoryByProductIdAsync(It.IsAny<int>())).ReturnsAsync((Inventory)null);
 
             var service = new InventoryService(agent.Object);
             var controller = new InventoryController(service);
@@ -137,7 +161,7 @@ namespace ECommerce.ProductManagement.Tests.Controllers
             var inventory = new Inventory { Id = 2, ProductId = 8, Quantity = 1 };
 
             var agent = new Mock<IInventoryServiceAgent>();
-            agent.Setup(x => x.GetInventoryByIdAsync(inventory.ProductId)).ReturnsAsync(inventory);
+            agent.Setup(x => x.GetInventoryByProductIdAsync(inventory.ProductId)).ReturnsAsync(inventory);
             agent.Setup(x => x.UpdateInventoryAsync(It.IsAny<Inventory>())).Returns(Task.CompletedTask).Verifiable();
 
             var service = new InventoryService(agent.Object);

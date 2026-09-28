@@ -29,5 +29,10 @@
         /// Product belongs to which InventoryId
         /// </summary>
         public int InventoryId { get; set; }
+
+        /// <summary>
+        /// Initial quantity for the product's inventory record.
+        /// </summary>
+        public int Quantity { get; set; }
     }
 }
